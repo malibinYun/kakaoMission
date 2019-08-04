@@ -9,33 +9,26 @@ import retrofit2.converter.gson.GsonConverterFactory
  * on 8월 04, 2019
  */
 
-class KakaoRepository private constructor() {
+object KakaoRepository {
 
-    companion object {
-        private val baseUrl = "http://dapi.kakao.com"
-        private var instance: KakaoRepository? = null
-        private var kakaoApiImpl: KakaoApi? = null
+    private val baseUrl = "http://dapi.kakao.com"
 
-        fun getInstance(): KakaoApi {
-            return kakaoApiImpl
-                ?: getKakaoApiImpl()
-        }
+    private lateinit var kakaoApiImpl: KakaoApi
 
-        private fun buildRetrofit() {
-            val gsonFactory = GsonConverterFactory.create()
-            val retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(gsonFactory)
-                .build()
-            kakaoApiImpl = retrofit.create(KakaoApi::class.java)
-        }
-
-        private fun getKakaoApiImpl(): KakaoApi {
-            instance = KakaoRepository().apply { instance = this }
-            buildRetrofit()
-            return kakaoApiImpl!!
-        }
+    init {
+        buildRetrofit()
     }
 
+    fun getInstance(): KakaoApi {
+        return kakaoApiImpl
+    }
 
+    private fun buildRetrofit() {
+        val gsonFactory = GsonConverterFactory.create()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(gsonFactory)
+            .build()
+        kakaoApiImpl = retrofit.create(KakaoApi::class.java)
+    }
 }
