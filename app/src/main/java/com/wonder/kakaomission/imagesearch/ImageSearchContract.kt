@@ -11,9 +11,19 @@ interface ImageSearchContract {
 
         var presenter: Presenter
 
+        fun showConnectFailToast(t: Throwable)
+
+        fun showSearchSuccessToast()
+
     }
 
     interface Presenter {
+
+        fun start()
+
+        fun requestImageSearch(query: String)
+
+        fun requestImageSearch(query: String, page: Int)
 
     }
 }

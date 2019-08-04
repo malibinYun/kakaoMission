@@ -1,11 +1,15 @@
 package com.wonder.kakaomission.imagesearch
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.wonder.kakaomission.R
 import kotlinx.android.synthetic.main.activity_image_search.*
+import org.jetbrains.anko.toast
 
 
 /**
@@ -22,6 +26,18 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         setContentView(R.layout.activity_image_search)
 
         initToolbar()
+        initSearchBtn()
+    }
+
+    override fun showConnectFailToast(t: Throwable) {
+        progressBarOff()
+        toast(R.string.server_connect_fail)
+        Log.v("Malibin Debug", "t : ${t.message}, stack : ${TextUtils.join("\n", t.stackTrace)}")
+    }
+
+    override fun showSearchSuccessToast() {
+        progressBarOff()
+        toast("")
     }
 
     private fun initToolbar() {
@@ -51,4 +67,23 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         toolbar.setContentInsetsAbsolute(0, 0)
     }
 
+    private fun initSearchBtn() {
+        btn_image_search_act_search.setOnClickListener {
+            progressBarOn()
+            val keyword = getKeyword()
+            presenter.requestImageSearch(keyword)
+        }
+    }
+
+    private fun getKeyword(): String {
+        return et_image_search_act_query.text.toString()
+    }
+
+    private fun progressBarOn() {
+        progressbar_image_search_act.visibility = View.VISIBLE
+    }
+
+    private fun progressBarOff() {
+        progressbar_image_search_act.visibility = View.GONE
+    }
 }
