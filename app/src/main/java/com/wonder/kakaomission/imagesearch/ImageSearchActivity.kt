@@ -1,15 +1,20 @@
 package com.wonder.kakaomission.imagesearch
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentActivity
 import com.wonder.kakaomission.R
 import kotlinx.android.synthetic.main.activity_image_search.*
 import org.jetbrains.anko.toast
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 /**
@@ -25,6 +30,9 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_search)
 
+        Log.v("Malibin Debug", getKeyHash(this))
+
+        initPresenter()
         initToolbar()
         initSearchBtn()
     }
@@ -32,12 +40,16 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
     override fun showConnectFailToast(t: Throwable) {
         progressBarOff()
         toast(R.string.server_connect_fail)
-        Log.v("Malibin Debug", "t : ${t.message}, stack : ${TextUtils.join("\n", t.stackTrace)}")
+        Log.v("Malibin Debug", "t.message : ${t.message}, stack : ${TextUtils.join("\n", t.stackTrace)}")
     }
 
     override fun showSearchSuccessToast() {
         progressBarOff()
-        toast("")
+        toast("성공")
+    }
+
+    private fun initPresenter() {
+        presenter = ImageSearchPresenter(this).apply { start() }
     }
 
     private fun initToolbar() {
@@ -85,5 +97,23 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
 
     private fun progressBarOff() {
         progressbar_image_search_act.visibility = View.GONE
+    }
+
+
+    fun getKeyHash(context: Context): String? {
+        val packageInfo =
+            packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES) ?: return null
+
+        for (signature in packageInfo!!.signatures) {
+            try {
+                val md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                return Base64.encodeToString(md.digest(), Base64.NO_WRAP)
+            } catch (e: NoSuchAlgorithmException) {
+                Log.w("Malibin Debug", "Unable to get MessageDigest. signature=$signature", e)
+            }
+
+        }
+        return null
     }
 }

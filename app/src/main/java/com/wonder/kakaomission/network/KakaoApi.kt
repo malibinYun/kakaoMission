@@ -2,6 +2,7 @@ package com.wonder.kakaomission.network
 
 import com.wonder.kakaomission.network.response.ImageSearchResponseDTO
 import retrofit2.Call
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
@@ -14,7 +15,7 @@ interface KakaoApi {
 
     @GET("/v2/search/image")
     fun requestImages(
-        @Header("Content-Type") contentType: String = "application/json",
+        //@Header("Content-Type") contentType: String = "application/json",
         @Header("Authorization") authorization: String,
         @Query("query") query: String,
         @Query("sort") sort: String,

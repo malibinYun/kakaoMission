@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object KakaoRepository {
 
-    private val baseUrl = "http://dapi.kakao.com"
+    private val baseUrl = "https://dapi.kakao.com"
 
     private lateinit var kakaoApiImpl: KakaoApi
 
