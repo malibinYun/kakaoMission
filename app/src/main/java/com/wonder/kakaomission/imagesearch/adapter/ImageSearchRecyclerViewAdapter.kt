@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.wonder.kakaomission.R
+import com.wonder.kakaomission.network.response.ImageSearchDocument
 
 /**
  * Created By Yun Hyeok
@@ -17,17 +18,38 @@ import com.wonder.kakaomission.R
 class ImageSearchRecyclerViewAdapter(private val ctx: Context) :
     RecyclerView.Adapter<ImageSearchRecyclerViewAdapter.Holder>() {
 
-    val imageUrls = ArrayList<String>()
+    private val imageDocuments = ArrayList<ImageSearchDocument>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(ctx).inflate(R.layout.rv_item_image_search, parent, false)
         return Holder(view)
     }
 
-    override fun getItemCount(): Int = imageUrls.size
+    override fun getItemCount(): Int = imageDocuments.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        val data = imageDocuments[position]
+        Glide
+            .with(ctx)
+            .load(data.thumbnail_url)
+            .into(holder.image)
+    }
 
+    fun addItems(items: List<ImageSearchDocument>) {
+        val previousCount = itemCount
+        imageDocuments.addAll(items)
+        notifyItemRangeChanged(previousCount, itemCount)
+    }
+
+    fun initFirstSearch(items: List<ImageSearchDocument>) {
+        deleteAllItems()
+        addItems(items)
+    }
+
+    fun deleteAllItems() {
+        val totalItemCount = itemCount
+        imageDocuments.clear()
+        notifyItemRangeRemoved(0, totalItemCount)
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

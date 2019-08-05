@@ -1,5 +1,9 @@
 package com.wonder.kakaomission.imagesearch
 
+import com.wonder.kakaomission.network.request.ImageSearchRequestDTO
+import com.wonder.kakaomission.network.response.ImageSearchDocument
+import com.wonder.kakaomission.network.response.Meta
+
 /**
  * Created By Yun Hyeok
  * on 8월 02, 2019
@@ -13,7 +17,13 @@ interface ImageSearchContract {
 
         fun showConnectFailToast(t: Throwable)
 
-        fun showSearchSuccessToast()
+        fun showUnknownErrorToast()
+
+        fun showSearchSuccessToast(totalCount: Int)
+
+        fun initSearchImages(images: List<ImageSearchDocument>)
+
+        fun appendSearchImages(images: List<ImageSearchDocument>, isEnd: Boolean)
 
     }
 
@@ -21,9 +31,9 @@ interface ImageSearchContract {
 
         fun start()
 
-        fun requestImageSearch(query: String)
+        fun requestImageSearch(params: ImageSearchRequestDTO)
 
-        fun requestImageSearch(query: String, page: Int)
+        fun requestImageSearch(query: String)
 
     }
 }
