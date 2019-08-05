@@ -10,6 +10,7 @@ import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.wonder.kakaomission.R
@@ -31,7 +32,7 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
 
     override lateinit var presenter: ImageSearchContract.Presenter
 
-    private lateinit var rvAdapter : ImageSearchRecyclerViewAdapter
+    private lateinit var rvAdapter: ImageSearchRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,10 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
     override fun showSearchSuccessToast(totalCount: Int) {
         progressBarOff()
         toast("총 $totalCount 건의 이미지가 검색되었습니다.")
+    }
+
+    override fun initSearchImages(images: List<ImageSearchDocument>) {
+        rvAdapter.initFirstSearch(images)
     }
 
     override fun appendSearchImages(images: List<ImageSearchDocument>, isEnd: Boolean) {
@@ -100,8 +105,7 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         btn_image_search_act_search.setOnClickListener {
             progressBarOn()
             val keyword = getKeyword()
-            val requestParams = ImageSearchRequestDTO(query = keyword)
-            presenter.requestImageSearch(requestParams)
+            presenter.requestImageSearch(keyword)
         }
     }
 
@@ -118,10 +122,12 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
     }
 
     private fun initImageList() {
-        rvAdapter = ImageSearchRecyclerViewAdapter(this)
-        rv_image_search_act_result.apply{
+        rvAdapter = ImageSearchRecyclerViewAdapter(this).apply{
+            imageDocuments.addAll(tempData())
+        }
+        rv_image_search_act_result.apply {
             adapter = rvAdapter
-            layoutManager = StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL)
+            layoutManager = GridLayoutManager(this@ImageSearchActivity, 2)
         }
     }
 
@@ -140,5 +146,118 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
 
         }
         return null
+    }
+
+    fun tempData(): List<ImageSearchDocument> {
+        val result = ArrayList<ImageSearchDocument>()
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        result.add(
+            ImageSearchDocument(
+                "",
+                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
+                "",
+                0,
+                0,
+                "",
+                "",
+                ""
+            )
+        )
+        return result
     }
 }

@@ -9,7 +9,7 @@ data class ImageSearchRequestDTO(
     val query: String,
     var sort: String = "accuracy",
     var page: Int = 1,
-    val size: Int = 25
+    val size: Int = 24
 ) {
     fun toMap(): Map<String, String> {
         val result = HashMap<String, String>()

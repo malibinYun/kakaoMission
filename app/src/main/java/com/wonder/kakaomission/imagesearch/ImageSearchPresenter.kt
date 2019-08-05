@@ -58,7 +58,7 @@ class ImageSearchPresenter(private var view: ImageSearchContract.View) : ImageSe
                     val isEnd = data.meta.is_end
                     val images = data.documents
                     view.showSearchSuccessToast(totalCount)
-                    view.appendSearchImages(images, isEnd)
+                    view.initSearchImages(images)
                     return
                 }
                 view.showUnknownErrorToast()

@@ -18,7 +18,7 @@ import com.wonder.kakaomission.network.response.ImageSearchDocument
 class ImageSearchRecyclerViewAdapter(private val ctx: Context) :
     RecyclerView.Adapter<ImageSearchRecyclerViewAdapter.Holder>() {
 
-    private val imageDocuments = ArrayList<ImageSearchDocument>()
+    val imageDocuments = ArrayList<ImageSearchDocument>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(ctx).inflate(R.layout.rv_item_image_search, parent, false)
