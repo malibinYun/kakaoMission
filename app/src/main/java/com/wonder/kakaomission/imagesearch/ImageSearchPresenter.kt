@@ -31,14 +31,10 @@ class ImageSearchPresenter(private var view: ImageSearchContract.View) : ImageSe
             override fun onResponse(call: Call<ImageSearchResponseDTO>, response: Response<ImageSearchResponseDTO>) {
                 Log.d("Malibin Debug", "response.raw() : ${response.raw()}")
                 if (response.isSuccessful) {
-                    val metaData = response.body()!!.meta
-                    //view.showSearchSuccessToast(metaData)
+                    val data = response.body()!!
+                    view.appendSearchImages(data.documents, data.meta.is_end)
                     return
                 }
-                val res = response.errorBody()!!
-                Log.d("Malibin Debug", "response.errorBody()!!.string() : ${res.string()}")
-                Log.d("Malibin Debug", "res.source().string() : ${res.source().toString()}")
-                Log.d("Malibin Debug", "res.contentType().string() : ${res.contentType()}")
                 view.showUnknownErrorToast()
             }
         })
@@ -55,13 +51,13 @@ class ImageSearchPresenter(private var view: ImageSearchContract.View) : ImageSe
                 if (response.isSuccessful) {
                     val data = response.body()!!
                     val totalCount = data.meta.pageable_count
-                    val isEnd = data.meta.is_end
                     val images = data.documents
                     view.showSearchSuccessToast(totalCount)
                     view.initSearchImages(images)
                     return
                 }
                 view.showUnknownErrorToast()
+                Log.d("Malibin Debug", "response.raw() : ${response.raw()}")
             }
         })
     }

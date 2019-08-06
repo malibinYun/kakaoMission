@@ -9,19 +9,17 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.wonder.kakaomission.R
 import com.wonder.kakaomission.imagesearch.adapter.ImageSearchRecyclerViewAdapter
 import com.wonder.kakaomission.network.request.ImageSearchRequestDTO
 import com.wonder.kakaomission.network.response.ImageSearchDocument
-import com.wonder.kakaomission.network.response.Meta
 import kotlinx.android.synthetic.main.activity_image_search.*
 import org.jetbrains.anko.toast
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import kotlin.math.abs
 
 /**
  * Created By Yun Hyeok
@@ -29,10 +27,21 @@ import java.security.NoSuchAlgorithmException
  */
 
 class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
+    private var keyword = ""
+    private var currentPageCount = 1
+    private var isEndPage = false
 
     override lateinit var presenter: ImageSearchContract.Presenter
-
     private lateinit var rvAdapter: ImageSearchRecyclerViewAdapter
+
+    private val scrollListener =
+        NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, _ ->
+            val isBottom = scrollY == abs(v.measuredHeight - v.getChildAt(0).measuredHeight)
+            if (isBottom && !isEndPage) {
+                turnOnImageMoreLoadProgressBar()
+                moreImageLoad()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,30 +53,36 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         initToolbar()
         initSearchBtn()
         initImageList()
+        initScrollView()
     }
 
     override fun showConnectFailToast(t: Throwable) {
-        progressBarOff()
+        turnOffAllProgressBar()
         toast(R.string.server_connect_fail)
         Log.v("Malibin Debug", "t.message : ${t.message}, stack : ${TextUtils.join("\n", t.stackTrace)}")
     }
 
     override fun showUnknownErrorToast() {
-        progressBarOff()
-        toast("알 수 없는 에러가 발생하였습니다.")
+        turnOffAllProgressBar()
+        toast(R.string.unknown_error)
     }
 
     override fun showSearchSuccessToast(totalCount: Int) {
-        progressBarOff()
+        turnOffAllProgressBar()
         toast("총 $totalCount 건의 이미지가 검색되었습니다.")
     }
 
     override fun initSearchImages(images: List<ImageSearchDocument>) {
+        keyword = getKeyword()
+        currentPageCount = 1
         rvAdapter.initFirstSearch(images)
     }
 
     override fun appendSearchImages(images: List<ImageSearchDocument>, isEnd: Boolean) {
-
+        turnOffAllProgressBar()
+        currentPageCount++
+        rvAdapter.addItems(images)
+        isEndPage = isEnd
     }
 
     private fun initPresenter() {
@@ -103,8 +118,12 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
 
     private fun initSearchBtn() {
         btn_image_search_act_search.setOnClickListener {
-            progressBarOn()
             val keyword = getKeyword()
+            if (keyword.isEmpty()) {
+                toast("검색어를 입력해주세요!")
+                return@setOnClickListener
+            }
+            turnOnSearchProgressBar()
             presenter.requestImageSearch(keyword)
         }
     }
@@ -113,22 +132,35 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         return et_image_search_act_query.text.toString()
     }
 
-    private fun progressBarOn() {
+    private fun turnOnSearchProgressBar() {
         progressbar_image_search_act.visibility = View.VISIBLE
     }
 
-    private fun progressBarOff() {
+    private fun turnOnImageMoreLoadProgressBar() {
+        progressbar_image_search_act_more_load.visibility = View.VISIBLE
+    }
+
+    private fun turnOffAllProgressBar() {
         progressbar_image_search_act.visibility = View.GONE
+        progressbar_image_search_act_more_load.visibility = View.GONE
     }
 
     private fun initImageList() {
-        rvAdapter = ImageSearchRecyclerViewAdapter(this).apply{
-            imageDocuments.addAll(tempData())
-        }
+        rvAdapter = ImageSearchRecyclerViewAdapter(this)
         rv_image_search_act_result.apply {
             adapter = rvAdapter
             layoutManager = GridLayoutManager(this@ImageSearchActivity, 2)
         }
+    }
+
+    private fun moreImageLoad() {
+        val nextPage = currentPageCount + 1
+        val params = ImageSearchRequestDTO(keyword, page = nextPage)
+        presenter.requestImageSearch(params)
+    }
+
+    private fun initScrollView() {
+        nscroll_image_search_act.setOnScrollChangeListener(scrollListener)
     }
 
     fun getKeyHash(context: Context): String? {
@@ -146,118 +178,5 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
 
         }
         return null
-    }
-
-    fun tempData(): List<ImageSearchDocument> {
-        val result = ArrayList<ImageSearchDocument>()
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        result.add(
-            ImageSearchDocument(
-                "",
-                "https://blog.hmgjournal.com/images_n/contents/170811_hashtagnews01.jpg",
-                "",
-                0,
-                0,
-                "",
-                "",
-                ""
-            )
-        )
-        return result
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wonder.kakaomission.R
@@ -18,7 +19,7 @@ import com.wonder.kakaomission.network.response.ImageSearchDocument
 class ImageSearchRecyclerViewAdapter(private val ctx: Context) :
     RecyclerView.Adapter<ImageSearchRecyclerViewAdapter.Holder>() {
 
-    val imageDocuments = ArrayList<ImageSearchDocument>()
+    private val imageDocuments = ArrayList<ImageSearchDocument>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(ctx).inflate(R.layout.rv_item_image_search, parent, false)
@@ -31,7 +32,7 @@ class ImageSearchRecyclerViewAdapter(private val ctx: Context) :
         val data = imageDocuments[position]
         Glide
             .with(ctx)
-            .load(data.thumbnail_url)
+            .load(data.image_url)
             .into(holder.image)
     }
 
@@ -46,7 +47,7 @@ class ImageSearchRecyclerViewAdapter(private val ctx: Context) :
         addItems(items)
     }
 
-    fun deleteAllItems() {
+    private fun deleteAllItems() {
         val totalItemCount = itemCount
         imageDocuments.clear()
         notifyItemRangeRemoved(0, totalItemCount)
