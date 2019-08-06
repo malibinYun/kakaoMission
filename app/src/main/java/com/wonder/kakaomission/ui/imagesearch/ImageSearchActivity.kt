@@ -1,4 +1,4 @@
-package com.wonder.kakaomission.imagesearch
+package com.wonder.kakaomission.ui.imagesearch
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.wonder.kakaomission.R
-import com.wonder.kakaomission.imagesearch.adapter.ImageSearchRecyclerViewAdapter
+import com.wonder.kakaomission.ui.imagesearch.adapter.ImageSearchRecyclerViewAdapter
 import com.wonder.kakaomission.network.request.ImageSearchRequestDTO
 import com.wonder.kakaomission.network.response.ImageSearchDocument
 import kotlinx.android.synthetic.main.activity_image_search.*
@@ -123,7 +123,7 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
     }
 
     private fun initEditTextBtn() {
-        et_image_search_act_query.setOnEditorActionListener { textView, actionId, keyEvent ->
+        et_image_search_act_query.setOnEditorActionListener { textView, actionId, _ ->
             if (textView.text.isEmpty()) {
                 toast(R.string.keyword_required)
                 return@setOnEditorActionListener false
@@ -153,7 +153,6 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         et_image_search_act_query.onEditorAction(EditorInfo.IME_ACTION_DONE)
         presenter.requestImageSearch(keyword)
     }
-
 
     private fun getKeyword(): String {
         return et_image_search_act_query.text.toString()

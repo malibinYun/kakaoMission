@@ -11,7 +11,7 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".imagesearch.ImageSearchActivity"
+            tools:context=".ui.imagesearch.ImageSearchActivity"
             android:background="@android:color/white" android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent">

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.wonder.kakaomission">
-
     <!-- User Permissions -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-    <!-- Daum Map API Key -->
+    <uses-permission android:name="android.permission.INTERNET"/> <!-- Daum Map API Key -->
     <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
@@ -17,9 +14,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-
             android:usesCleartextTraffic="true">
-        <activity android:name=".imagesearch.ImageSearchActivity">
+        <activity android:name=".ui.visitweb.VisitWebActivity">
+        </activity>
+        <activity android:name=".ui.imagedetail.ImageDetailActivity">
+        </activity>
+        <activity android:name=".ui.imagesearch.ImageSearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

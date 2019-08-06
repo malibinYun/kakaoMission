@@ -1,4 +1,4 @@
-package com.wonder.kakaomission.imagesearch
+package com.wonder.kakaomission.ui.imagesearch
 
 import android.util.Log
 import com.wonder.kakaomission.network.KakaoApi

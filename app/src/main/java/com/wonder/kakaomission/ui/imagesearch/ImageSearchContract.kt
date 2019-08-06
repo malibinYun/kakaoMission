@@ -1,8 +1,9 @@
-package com.wonder.kakaomission.imagesearch
+package com.wonder.kakaomission.ui.imagesearch
 
 import com.wonder.kakaomission.network.request.ImageSearchRequestDTO
 import com.wonder.kakaomission.network.response.ImageSearchDocument
-import com.wonder.kakaomission.network.response.Meta
+import com.wonder.kakaomission.util.BasePresenter
+import com.wonder.kakaomission.util.BaseView
 
 /**
  * Created By Yun Hyeok
@@ -11,9 +12,7 @@ import com.wonder.kakaomission.network.response.Meta
 
 interface ImageSearchContract {
 
-    interface View {
-
-        var presenter: Presenter
+    interface View : BaseView<Presenter> {
 
         fun showConnectFailToast(t: Throwable)
 
@@ -27,9 +26,7 @@ interface ImageSearchContract {
 
     }
 
-    interface Presenter {
-
-        fun start()
+    interface Presenter : BasePresenter {
 
         fun requestImageSearch(params: ImageSearchRequestDTO)
 
