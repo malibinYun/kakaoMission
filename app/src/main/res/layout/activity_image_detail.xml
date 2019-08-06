@@ -17,17 +17,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <LinearLayout
-                    android:orientation="vertical"
+            <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="500dp" android:id="@+id/ll_image_detail_image_frame">
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:srcCompat="@android:color/darker_gray"
-                        android:id="@+id/iv_image_detail_image"
-                        android:scaleType="centerCrop"/>
-            </LinearLayout>
+                    android:layout_height="300dp"
+                    app:srcCompat="@android:color/darker_gray"
+                    android:id="@+id/iv_image_detail_image"
+                    android:scaleType="centerCrop"/>
         </LinearLayout>
     </ScrollView>
     <androidx.constraintlayout.widget.ConstraintLayout

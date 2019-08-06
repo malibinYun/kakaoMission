@@ -29,13 +29,13 @@ class ImageSearchPresenter(private var view: ImageSearchContract.View) : ImageSe
             }
 
             override fun onResponse(call: Call<ImageSearchResponseDTO>, response: Response<ImageSearchResponseDTO>) {
-                Log.d("Malibin Debug", "response.raw() : ${response.raw()}")
                 if (response.isSuccessful) {
                     val data = response.body()!!
                     view.appendSearchImages(data.documents, data.meta.is_end)
                     return
                 }
                 view.showUnknownErrorToast()
+                Log.d("Malibin Debug", "response.raw() : ${response.raw()}")
             }
         })
     }

@@ -22,9 +22,7 @@ class ImageDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
 
-
         getIntentData()
-        Log.d("Malibin Debug", "imageDocument : $imageDocument")
         initView()
     }
 
@@ -46,7 +44,6 @@ class ImageDetailActivity : AppCompatActivity() {
 
         setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
         window.statusBarColor = Color.TRANSPARENT
-
     }
 
     private fun setWindowFlag(bits: Int, on: Boolean) {
@@ -60,9 +57,7 @@ class ImageDetailActivity : AppCompatActivity() {
     }
 
     private fun initImage() {
-        Log.d("Malibin Debug", "getDynamicImageHeight() : ${getDynamicImageHeight()}")
-        ll_image_detail_image_frame.layoutParams.height = getDynamicImageHeight()
-        //iv_image_detail_image.layoutParams.height = getDynamicImageHeight()
+        iv_image_detail_image.layoutParams.height = getDynamicImageHeight()
         val imageUrl = imageDocument.image_url
         Glide.with(this)
             .load(imageUrl)
@@ -71,7 +66,6 @@ class ImageDetailActivity : AppCompatActivity() {
 
     private fun initVisitBtn() {
         btn_image_detail_visit.setOnClickListener {
-            Log.d("Malibin Debug", "iv_image_detail_image.height : ${iv_image_detail_image.height}")
             startActivity<VisitWebActivity>("imageDocument" to imageDocument)
         }
         var siteName = imageDocument.display_sitename
@@ -84,23 +78,11 @@ class ImageDetailActivity : AppCompatActivity() {
     private fun getDynamicImageHeight(): Int {
         val width = imageDocument.width.toFloat()
         val height = imageDocument.height.toFloat()
-
-        var heightRatio = height / width
-//        if (width > height) {
-//            heightRatio = width / height
-//        }
-        Log.d(
-            "Malibin Debug",
-            "width : $width, height : $height, ratio = $heightRatio getDeviceWidth() : ${getDeviceWidth()}, result : ${getDeviceWidth() * heightRatio}"
-        )
+        val heightRatio = height / width
         return (getDeviceWidth() * heightRatio).toInt()
     }
 
     private fun getDeviceWidth(): Int {
         return resources.displayMetrics.widthPixels
-    }
-
-    private fun px2dp(px: Int): Float {
-        return px / ((resources.displayMetrics.densityDpi.toFloat()) / DisplayMetrics.DENSITY_DEFAULT)
     }
 }

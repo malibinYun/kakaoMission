@@ -96,7 +96,7 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar_image_search_act) //툴바 등록
+        setSupportActionBar(toolbar_image_search_act)
         val toolbar = supportActionBar!!
 
         configureToolbarSettings(toolbar)
