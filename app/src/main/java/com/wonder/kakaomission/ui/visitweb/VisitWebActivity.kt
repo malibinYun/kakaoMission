@@ -9,11 +9,12 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.content.ContextCompat
 import com.wonder.kakaomission.R
+import com.wonder.kakaomission.network.response.ImageSearchDocument
 import kotlinx.android.synthetic.main.activity_visit_web.*
 
 class VisitWebActivity : AppCompatActivity() {
-    private lateinit var siteUrl: String
-    private lateinit var siteTitle: String
+
+    private lateinit var imageDocument: ImageSearchDocument
 
     private val mWebViewClient = object : WebViewClient() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -46,15 +47,15 @@ class VisitWebActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+
     private fun getIntentData() {
-        siteUrl = intent.getStringExtra("siteUrl")!!
-        siteTitle = intent.getStringExtra("siteTitle")!!
+        imageDocument = intent.getSerializableExtra("imageDocument") as ImageSearchDocument
     }
 
     private fun initView() {
         initTopBar()
         initWebView()
-        initProgressBar()
+        //      initProgressBar()
     }
 
     private fun initTopBar() {
@@ -62,10 +63,11 @@ class VisitWebActivity : AppCompatActivity() {
             finish()
         }
 
-        tv_store_web_act_store_name.text = siteTitle
+        tv_store_web_act_store_name.text = imageDocument.display_sitename
     }
 
     private fun initWebView() {
+        val siteUrl = imageDocument.doc_url
         wv_store_web_act_web.apply {
             webViewClient = mWebViewClient
             webChromeClient = mWebChromeClient
@@ -84,10 +86,10 @@ class VisitWebActivity : AppCompatActivity() {
         }
     }
 
-    private fun initProgressBar() {
-        val color = ContextCompat.getColor(this, R.color.colorPrimary)
-        progressbar_store_web_act.progressDrawable.setColorFilter(
-            color, android.graphics.PorterDuff.Mode.SRC_IN
-        )
-    }
+//    private fun initProgressBar() {
+//        val color = ContextCompat.getColor(this, R.color.colorPrimary)
+//        progressbar_store_web_act.progressDrawable.setColorFilter(
+//            color, android.graphics.PorterDuff.Mode.SRC_IN
+//        )
+//    }
 }

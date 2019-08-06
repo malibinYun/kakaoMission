@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wonder.kakaomission.R
 import com.wonder.kakaomission.network.response.ImageSearchDocument
+import com.wonder.kakaomission.ui.imagedetail.ImageDetailActivity
+import org.jetbrains.anko.startActivity
 
 /**
  * Created By Yun Hyeok
@@ -33,6 +35,9 @@ class ImageSearchRecyclerViewAdapter(private val ctx: Context) :
             .with(ctx)
             .load(data.image_url)
             .into(holder.image)
+        holder.image.setOnClickListener {
+            ctx.startActivity<ImageDetailActivity>("imageDocument" to data)
+        }
     }
 
     fun addItems(items: List<ImageSearchDocument>) {

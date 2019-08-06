@@ -1,5 +1,7 @@
 package com.wonder.kakaomission.network.response
 
+import java.io.Serializable
+
 /**
  * Created By Yun Hyeok
  * on 8월 02, 2019
@@ -14,4 +16,4 @@ data class ImageSearchDocument(
     val display_sitename: String,   // 출처명
     val doc_url: String,            // 문서 URL
     val datetime: String            // 문서 작성시간 ISO 8601. [YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].000+[tz]
-)
+) : Serializable
