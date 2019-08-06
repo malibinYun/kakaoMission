@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
@@ -47,13 +48,10 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_search)
 
-        Log.v("Malibin Debug", getKeyHash(this))
+        Log.d("Malibin Debug", getKeyHash(this))
 
         initPresenter()
-        initToolbar()
-        initSearchBtn()
-        initImageList()
-        initScrollView()
+        initView()
     }
 
     override fun showConnectFailToast(t: Throwable) {
@@ -89,6 +87,14 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         presenter = ImageSearchPresenter(this).apply { start() }
     }
 
+    private fun initView() {
+        initToolbar()
+        initEditTextBtn()
+        initSearchBtn()
+        initImageList()
+        initScrollView()
+    }
+
     private fun initToolbar() {
         setSupportActionBar(toolbar_image_search_act) //툴바 등록
         val toolbar = supportActionBar!!
@@ -116,17 +122,38 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         toolbar.setContentInsetsAbsolute(0, 0)
     }
 
+    private fun initEditTextBtn() {
+        et_image_search_act_query.setOnEditorActionListener { textView, actionId, keyEvent ->
+            if (textView.text.isEmpty()) {
+                toast(R.string.keyword_required)
+                return@setOnEditorActionListener false
+            }
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                sendSearchRequest()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+    }
+
     private fun initSearchBtn() {
         btn_image_search_act_search.setOnClickListener {
             val keyword = getKeyword()
             if (keyword.isEmpty()) {
-                toast("검색어를 입력해주세요!")
+                toast(R.string.keyword_required)
                 return@setOnClickListener
             }
-            turnOnSearchProgressBar()
-            presenter.requestImageSearch(keyword)
+            sendSearchRequest()
         }
     }
+
+    private fun sendSearchRequest() {
+        val keyword = getKeyword()
+        turnOnSearchProgressBar()
+        et_image_search_act_query.onEditorAction(EditorInfo.IME_ACTION_DONE)
+        presenter.requestImageSearch(keyword)
+    }
+
 
     private fun getKeyword(): String {
         return et_image_search_act_query.text.toString()
