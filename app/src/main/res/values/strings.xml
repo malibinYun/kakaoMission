@@ -6,4 +6,5 @@
     <string name="server_connect_fail">서버와의 통신에 실패하였습니다. 인터넷 연결을 확인해주세요.</string>
     <string name="unknown_error">알 수 없는 에러가 발생하였습니다.</string>
     <string name="keyword_required">검색어를 입력해주세요!</string>
+    <string name="btn_image_zoom">이미지 확대하며 보러가기</string>
 </resources>

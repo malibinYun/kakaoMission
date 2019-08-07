@@ -3,13 +3,12 @@ package com.wonder.kakaomission.ui.imagedetail
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.bumptech.glide.Glide
 import com.wonder.kakaomission.R
 import com.wonder.kakaomission.network.response.ImageSearchDocument
+import com.wonder.kakaomission.ui.imagezoom.ImageZoomActivity
 import com.wonder.kakaomission.ui.visitweb.VisitWebActivity
 import kotlinx.android.synthetic.main.activity_image_detail.*
 import org.jetbrains.anko.startActivity
@@ -32,8 +31,9 @@ class ImageDetailActivity : AppCompatActivity() {
 
     private fun initView() {
         setStatusBarTransparent()
-        initImage()
+        initImageView()
         initVisitBtn()
+        initGoZoomWindowBtn()
     }
 
     private fun setStatusBarTransparent() {
@@ -56,23 +56,53 @@ class ImageDetailActivity : AppCompatActivity() {
         window.attributes = winParams
     }
 
-    private fun initImage() {
+    private fun initImageView() {
+        modifyImageHeight()
+        insertImage()
+        setClickListenerAtImage()
+    }
+
+    private fun modifyImageHeight() {
         iv_image_detail_image.layoutParams.height = getDynamicImageHeight()
+    }
+
+    private fun insertImage() {
         val imageUrl = imageDocument.image_url
         Glide.with(this)
             .load(imageUrl)
             .into(iv_image_detail_image)
     }
 
+    private fun setClickListenerAtImage() {
+        iv_image_detail_image.setOnClickListener {
+            startImageZoomActivity()
+        }
+    }
+
     private fun initVisitBtn() {
         btn_image_detail_visit.setOnClickListener {
             startActivity<VisitWebActivity>("imageDocument" to imageDocument)
         }
+        setVisitButtonText()
+    }
+
+    private fun setVisitButtonText() {
         var siteName = imageDocument.display_sitename
         if (siteName.isEmpty()) {
             siteName = "사이트"
         }
         tv_image_detail_visit.text = ("$siteName 방문하기")
+    }
+
+    private fun initGoZoomWindowBtn() {
+        btn_image_detail_go_zoom_window.setOnClickListener {
+            startImageZoomActivity()
+        }
+    }
+
+    private fun startImageZoomActivity() {
+        val imageUrl = imageDocument.image_url
+        startActivity<ImageZoomActivity>("imageUrl" to imageUrl)
     }
 
     private fun getDynamicImageHeight(): Int {

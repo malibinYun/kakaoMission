@@ -15,6 +15,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".ui.imagezoom.ImageZoomActivity">
+        </activity>
         <activity android:name=".ui.visitweb.VisitWebActivity">
         </activity>
         <activity android:name=".ui.imagedetail.ImageDetailActivity">

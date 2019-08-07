@@ -18,7 +18,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btn_store_web_act_close"
+                android:id="@+id/btn_visit_web_act_close"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -26,18 +26,17 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                    android:id="@+id/iv_mypage_redddot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/icon_x" />
+                    app:srcCompat="@drawable/icon_x"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-                android:id="@+id/tv_store_web_act_store_name"
+                android:id="@+id/tv_visit_web_act_store_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -45,13 +44,13 @@
                 android:textColor="@android:color/black"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_store_web_act_close"
+                app:layout_constraintStart_toEndOf="@+id/btn_visit_web_act_close"
                 app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <WebView
-            android:id="@+id/wv_store_web_act_web"
+            android:id="@+id/wv_visit_web_act_web"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +59,7 @@
             app:layout_constraintTop_toBottomOf="@+id/topBarZone" />
 
     <ProgressBar
-            android:id="@+id/progressbar_store_web_act"
+            android:id="@+id/progressbar_visit_web_act"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="4dp"

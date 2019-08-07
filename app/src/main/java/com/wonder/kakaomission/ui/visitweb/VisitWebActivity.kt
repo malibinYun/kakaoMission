@@ -7,7 +7,6 @@ import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.core.content.ContextCompat
 import com.wonder.kakaomission.R
 import com.wonder.kakaomission.network.response.ImageSearchDocument
 import kotlinx.android.synthetic.main.activity_visit_web.*
@@ -18,15 +17,15 @@ class VisitWebActivity : AppCompatActivity() {
 
     private val mWebViewClient = object : WebViewClient() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-            progressbar_store_web_act.visibility = View.VISIBLE
+            progressbar_visit_web_act.visibility = View.VISIBLE
         }
     }
 
     private val mWebChromeClient = object : WebChromeClient() {
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
-            progressbar_store_web_act.progress = newProgress
+            progressbar_visit_web_act.progress = newProgress
             if (newProgress == 100) {
-                progressbar_store_web_act.visibility = View.GONE
+                progressbar_visit_web_act.visibility = View.GONE
             }
         }
     }
@@ -40,8 +39,8 @@ class VisitWebActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (wv_store_web_act_web.canGoBack()) {
-            wv_store_web_act_web.goBack()
+        if (wv_visit_web_act_web.canGoBack()) {
+            wv_visit_web_act_web.goBack()
             return
         }
         super.onBackPressed()
@@ -58,15 +57,15 @@ class VisitWebActivity : AppCompatActivity() {
     }
 
     private fun initTopBar() {
-        btn_store_web_act_close.setOnClickListener {
+        btn_visit_web_act_close.setOnClickListener {
             finish()
         }
-        tv_store_web_act_store_name.text = imageDocument.display_sitename
+        tv_visit_web_act_store_name.text = imageDocument.display_sitename
     }
 
     private fun initWebView() {
         val siteUrl = imageDocument.doc_url
-        wv_store_web_act_web.apply {
+        wv_visit_web_act_web.apply {
             webViewClient = mWebViewClient
             webChromeClient = mWebChromeClient
             applyWebViewSettings(this)
