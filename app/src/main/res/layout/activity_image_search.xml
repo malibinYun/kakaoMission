@@ -14,7 +14,8 @@
             tools:context=".ui.imagesearch.ImageSearchActivity"
             android:background="@android:color/white" android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/linearLayout">
         <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,7 +106,7 @@
             android:layout_height="match_parent" android:id="@+id/zone_image_search_act_loading"
             android:background="#66000000" android:visibility="gone" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent" tools:visibility="gone">
 
         <ProgressBar
                 style="?android:attr/progressBarStyle"
@@ -115,5 +116,12 @@
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/progressbar_image_search_act"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+            android:text="@string/message_insert_keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/tv_image_search_act_notice" android:textSize="18sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

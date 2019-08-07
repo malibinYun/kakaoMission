@@ -148,9 +148,10 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
     }
 
     private fun sendSearchRequest() {
-        val keyword = getKeyword()
+        removeMainNotice()
         turnOnSearchProgressBar()
         et_image_search_act_query.onEditorAction(EditorInfo.IME_ACTION_DONE)
+        val keyword = getKeyword()
         presenter.requestImageSearch(keyword)
     }
 
@@ -169,6 +170,10 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
     private fun turnOffAllProgressBar() {
         progressbar_image_search_act.visibility = View.GONE
         progressbar_image_search_act_more_load.visibility = View.GONE
+    }
+
+    private fun removeMainNotice() {
+        tv_image_search_act_notice.visibility = View.GONE
     }
 
     private fun initImageList() {
