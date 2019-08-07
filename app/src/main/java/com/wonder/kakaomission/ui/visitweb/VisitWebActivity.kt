@@ -57,9 +57,7 @@ class VisitWebActivity : AppCompatActivity() {
     }
 
     private fun initTopBar() {
-        btn_visit_web_act_close.setOnClickListener {
-            finish()
-        }
+        btn_visit_web_act_close.setOnClickListener { finish() }
         tv_visit_web_act_store_name.text = imageDocument.display_sitename
     }
 

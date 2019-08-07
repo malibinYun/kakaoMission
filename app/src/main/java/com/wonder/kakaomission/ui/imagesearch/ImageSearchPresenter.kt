@@ -49,17 +49,21 @@ class ImageSearchPresenter(private var view: ImageSearchContract.View) : ImageSe
 
             override fun onResponse(call: Call<ImageSearchResponseDTO>, response: Response<ImageSearchResponseDTO>) {
                 if (response.isSuccessful) {
-                    val data = response.body()!!
-                    val totalCount = data.meta.pageable_count
-                    val images = data.documents
-                    view.showSearchSuccessToast(totalCount)
-                    view.initSearchImages(images)
+                    initSearchImages(response)
                     return
                 }
                 view.showUnknownErrorToast()
                 Log.d("Malibin Debug", "response.raw() : ${response.raw()}")
             }
         })
+    }
+
+    private fun initSearchImages(response: Response<ImageSearchResponseDTO>) {
+        val data = response.body()!!
+        val totalCount = data.meta.pageable_count
+        val images = data.documents
+        view.showSearchSuccessToast(totalCount)
+        view.initSearchImages(images)
     }
 
     private fun getAuthKey(): String {

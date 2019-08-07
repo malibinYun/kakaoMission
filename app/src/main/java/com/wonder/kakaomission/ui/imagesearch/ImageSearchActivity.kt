@@ -189,7 +189,7 @@ class ImageSearchActivity : AppCompatActivity(), ImageSearchContract.View {
         nscroll_image_search_act.setOnScrollChangeListener(scrollListener)
     }
 
-    fun getKeyHash(context: Context): String? {
+    private fun getKeyHash(context: Context): String? {
         val packageInfo =
             packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES) ?: return null
 

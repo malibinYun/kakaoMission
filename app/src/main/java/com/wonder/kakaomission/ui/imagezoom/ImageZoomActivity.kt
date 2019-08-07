@@ -28,7 +28,6 @@ class ImageZoomActivity : AppCompatActivity() {
         getIntentData()
         initWindowNoLimits()
         initWebView()
-
     }
 
     override fun onBackPressed() {
